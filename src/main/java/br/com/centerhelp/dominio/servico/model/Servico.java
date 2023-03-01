@@ -38,7 +38,18 @@ public class Servico {
     @Column(name = "DT_FIM_SERVICO")
     private LocalDateTime fim;
 
-    public Servico(Long id, String nome, String descricao, LocalDateTime abertura, LocalDateTime autorizacao, LocalDateTime inicio, LocalDateTime fim) {
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(
+            name = "ID_TP_SERVICO",
+            referencedColumnName = "ID_TP_SERVICO",
+            foreignKey = @ForeignKey(
+                    name = "FK_TP_SERVICO",
+                    value = ConstraintMode.CONSTRAINT
+            )
+    )
+    private TipoServico tipo;
+
+    public Servico(Long id, String nome, String descricao, LocalDateTime abertura, LocalDateTime autorizacao, LocalDateTime inicio, LocalDateTime fim, TipoServico tipo) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -46,6 +57,7 @@ public class Servico {
         this.autorizacao = autorizacao;
         this.inicio = inicio;
         this.fim = fim;
+        this.tipo = tipo;
     }
 
     public Servico(){}
@@ -113,6 +125,15 @@ public class Servico {
         return this;
     }
 
+    public TipoServico getTipo() {
+        return tipo;
+    }
+
+    public Servico setTipo(TipoServico tipo) {
+        this.tipo = tipo;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Servico{" +
@@ -123,6 +144,7 @@ public class Servico {
                 ", autorizacao=" + autorizacao +
                 ", inicio=" + inicio +
                 ", fim=" + fim +
+                ", tipo=" + tipo +
                 '}';
     }
 }
