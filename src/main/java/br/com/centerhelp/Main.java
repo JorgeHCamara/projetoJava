@@ -19,5 +19,8 @@ public class Main {
         e.setTipo(tp);
         manager.persist(e);
         manager.getTransaction().commit();
+
+        manager.close();
+        factory.close();
     }
 }
